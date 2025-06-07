@@ -1,4 +1,8 @@
-CREATE TABLE IF NOT EXISTS items (
+CREATE TABLE inventory (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
+    product_name VARCHAR(255) NOT NULL,
+    category VARCHAR(100),
+    quantity INTEGER NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

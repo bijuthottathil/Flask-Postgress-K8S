@@ -30,7 +30,7 @@ def metrics():
 def get_items():
     conn = get_db_connection()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute('SELECT * FROM items')
+    cur.execute('SELECT * FROM inventory')
     rows = cur.fetchall()
     cur.close()
     conn.close()
@@ -41,7 +41,7 @@ def add_item():
     data = request.get_json()
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute('INSERT INTO items (name) VALUES (%s)', (data['name'],))
+    cur.execute('INSERT INTO inventory  (product_name,category,quantity,price) VALUES (%s,%s,%s,%s)', (data['product_name'],data['category'],data['quantity'],data['price'],))
     conn.commit()
     cur.close()
     conn.close()

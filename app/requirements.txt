@@ -1,2 +1,6 @@
+
 flask
 psycopg2-binary
+prometheus_client
+pytest
+pytest-flask

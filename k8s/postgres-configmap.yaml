@@ -4,7 +4,13 @@ metadata:
   name: init-sql
 data:
   init.sql: |
-    CREATE TABLE IF NOT EXISTS items (
-      id SERIAL PRIMARY KEY,
-      name TEXT NOT NULL
+    CREATE TABLE IF NOT EXISTS inventory (
+    id SERIAL PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    category VARCHAR(100),
+    quantity INTEGER NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    

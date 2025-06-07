@@ -26,13 +26,21 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_PASSWORD
-      volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: postgres-storage
-  volumes:
-    - name: postgres-storage
-      persistentVolumeClaim:
-        claimName: postgres-pvc
+  volumeMounts:
+  - mountPath: /var/lib/postgresql/data
+    name: postgres-storage
+  - name: init-sql-volume
+    mountPath: /docker-entrypoint-initdb.d/init.sql
+    subPath: init.sql
+      
+volumes:
+  - name: postgres-storage
+    persistentVolumeClaim:
+      claimName: postgres-pvc
+  - name: init-sql-volume
+    configMap:
+      name: init-sql
+        
 ---
 apiVersion: v1
 kind: Service

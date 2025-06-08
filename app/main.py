@@ -47,5 +47,32 @@ def add_item():
     conn.close()
     return {'message': 'Item added'}, 201
 
+@app.route('/items/<int:item_id>', methods=['PUT'])
+def update_item(item_id):
+    data = request.get_json()
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute('''
+        UPDATE inventory 
+        SET product_name = %s,
+            category = %s,
+            quantity = %s,
+            price = %s,
+            last_updated = CURRENT_TIMESTAMP
+        WHERE id = %s
+    ''', (
+        data['product_name'],
+        data['category'],
+        data['quantity'],
+        data['price'],
+        item_id
+    ))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

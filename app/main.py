@@ -69,9 +69,38 @@ def update_item(item_id):
         item_id
     ))
 
+    if cur.rowcount == 0:
+        # No rows were updated; item does not exist
+        conn.rollback()
+        cur.close()
+        conn.close()
+        return {'error': f'Item with ID {item_id} not found'}, 404
+
     conn.commit()
     cur.close()
     conn.close()
+    return {'message': f'Item with ID {item_id} updated'}, 200
+
+@app.route('/items/<int:item_id>', methods=['DELETE'])
+def delete_item(item_id):
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute('DELETE FROM inventory WHERE id = %s', (item_id,))
+
+    if cur.rowcount == 0:
+        # No item found to delete
+        conn.rollback()
+        cur.close()
+        conn.close()
+        return {'error': f'Item with ID {item_id} not found'}, 404
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return {'message': f'Item with ID {item_id} deleted'}, 200
+
 
 
 if __name__ == '__main__':

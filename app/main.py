@@ -5,7 +5,9 @@ from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_
 import time
 
 app = Flask(__name__)
-
+@app.route('/')
+def home():
+    return "Hello from Flask!"
 # 🔢 Prometheus metrics
 REQUEST_COUNT = Counter('flask_app_requests_total', 'Total number of requests', ['method', 'endpoint'])
 REQUEST_LATENCY = Histogram('flask_app_request_latency_seconds', 'Request latency', ['endpoint'])
